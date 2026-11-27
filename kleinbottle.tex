@@ -1,0 +1,1078 @@
+%%
+%% kleinbottle.tex
+%%
+%% Copyright (C) 2026 Benjamim Lima Neto
+%%
+%% This work may be distributed and/or modified under
+%% the conditions of the LaTeX Project Public License,
+%% either version 1.3c of this license or (at your option)
+%% any later version.
+%%
+%% The latest version of this license is available at:
+%% https://www.latex-project.org/lppl.txt
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is Benjamim Lima Neto.
+%%
+%% Contact information is provided in the accompanying
+%% README.md file.
+%%
+%% This work consists of the files:
+%%   kleinbottle.sty
+%%   kleinbottle.tex
+%%   README.md
+%%
+%% and the derived file:
+%%   kleinbottle.pdf
+%%
+
+\documentclass[12pt,a4paper]{article}
+
+% --------------------------------------------------
+% Packages
+% --------------------------------------------------
+
+\usepackage{iftex}
+
+\ifPDFTeX
+    \usepackage[utf8]{inputenc}
+    \usepackage[T1]{fontenc}
+\fi
+
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{kleinbottle}
+\usepackage{hyperref}
+
+% --------------------------------------------------
+% Colors
+% --------------------------------------------------
+
+\definecolor{ManualBlue}{HTML}{234A76}
+\definecolor{CustomGreen}{HTML}{2A9D8F}
+\definecolor{CustomPurple}{HTML}{7952B3}
+
+% --------------------------------------------------
+% Hyperlinks and PDF metadata
+% --------------------------------------------------
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ManualBlue,
+    urlcolor=ManualBlue,
+    citecolor=ManualBlue,
+    pdftitle={The kleinbottle package},
+    pdfauthor={Benjamim Lima Neto},
+    pdfsubject={Documentation of the kleinbottle LaTeX package},
+    pdfkeywords={LaTeX, TikZ, Klein bottle, topology}
+}
+
+% --------------------------------------------------
+% Title
+% --------------------------------------------------
+
+\title{%
+    \leavevmode
+    \klein[color=ManualBlue,scale=5]
+    \par\vspace{0.4cm}
+    \texttt{kleinbottle}
+    \par\vspace{0.2cm}
+    {\large A Tiny \LaTeX{} Package for Drawing a Klein Bottle}
+}
+
+\author{Benjamim Lima Neto}
+
+\date{Version 1.0 -- November 26, 2026}
+
+% --------------------------------------------------
+% Document
+% --------------------------------------------------
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+
+The \texttt{kleinbottle} package provides a simple and
+customizable TikZ illustration of the Klein bottle.
+Through a single command, users can insert a miniature
+representation of this mathematical object into their
+\LaTeX{} documents and customize its color, opacity,
+size, and rotation.
+
+The package is designed to be lightweight, easy to use,
+and suitable for both inline and displayed illustrations.
+
+\end{abstract}
+
+\tableofcontents
+
+% --------------------------------------------------
+\section{Introduction}
+% --------------------------------------------------
+
+The Klein bottle is a well-known example of a compact
+non-orientable surface without boundary. It is named
+after the German mathematician Felix Klein.
+
+The \texttt{kleinbottle} package provides a stylized
+two-dimensional representation of the usual
+self-intersecting immersion of the Klein bottle
+in three-dimensional Euclidean space.
+
+Its purpose is to make it easy to incorporate this
+mathematical object into articles, presentations,
+lecture notes, books, and other \LaTeX{} documents,
+without requiring users to write their own TikZ code.
+
+The package is intentionally lightweight and provides
+a single command with four independent customization
+options.
+
+The illustration is generated directly from vector
+graphics instructions and does not require external
+image files.
+
+% --------------------------------------------------
+\section{Requirements}
+% --------------------------------------------------
+
+The package requires the following packages:
+
+\begin{itemize}
+
+    \item \href{https://ctan.org/pkg/pgf}
+        {\texttt{TikZ/PGF}}:
+        for drawing the Klein bottle, processing
+        options, and performing numerical calculations;
+
+    \item \href{https://ctan.org/pkg/xcolor}
+        {\texttt{xcolor}}:
+        for color customization;
+
+    \item \href{https://ctan.org/pkg/graphicx}
+        {\texttt{graphicx}}:
+        for proportional scaling.
+
+\end{itemize}
+
+All dependencies are loaded automatically by
+\texttt{kleinbottle}. There is no need to load them
+manually unless additional functionality is required.
+
+The package is intended for use with modern
+\LaTeX{} installations, including those using
+pdf\LaTeX, Xe\LaTeX, and Lua\LaTeX.
+
+% --------------------------------------------------
+\section{Installation}
+% --------------------------------------------------
+
+For manual installation, place the file
+\texttt{kleinbottle.sty} in the same directory as your
+main \LaTeX{} document, or in an appropriate local
+TeX directory.
+
+Then load the package in the preamble:
+
+\begin{verbatim}
+\usepackage{kleinbottle}
+\end{verbatim}
+
+No additional configuration is required.
+
+If the package is already installed in your TeX
+distribution, loading it in the preamble is sufficient.
+
+% --------------------------------------------------
+\section{Basic Usage}
+% --------------------------------------------------
+
+To insert the default Klein bottle miniature, simply
+write:
+
+\begin{verbatim}
+\klein
+\end{verbatim}
+
+The result is:
+
+\begin{center}
+    \klein
+\end{center}
+
+The command accepts an optional argument containing
+a comma-separated list of key--value pairs.
+
+Its complete syntax is:
+
+\begin{verbatim}
+\klein[color=<color>,
+       opacity=<number>,
+       scale=<number>,
+       rotate=<angle>]
+\end{verbatim}
+
+All four options are optional and may be specified
+individually, simultaneously, or in any order.
+
+Whenever an option is omitted, its default value
+is used.
+
+An empty optional argument is equivalent to omitting
+the optional argument entirely:
+
+\begin{verbatim}
+\klein
+\klein[]
+\end{verbatim}
+
+\begin{center}
+    \klein
+    \qquad
+    \klein[]
+\end{center}
+
+\subsection{Available Options}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lll}
+\toprule
+\textbf{Option}
+    & \textbf{Default}
+    & \textbf{Accepted values}\\
+\midrule
+\texttt{color}
+    & \texttt{black}
+    & Valid xcolor expressions\\
+\texttt{opacity}
+    & \texttt{100}
+    & Numbers from 0 to 100\\
+\texttt{scale}
+    & \texttt{1}
+    & Positive numbers\\
+\texttt{rotate}
+    & \texttt{0}
+    & Angles from 0 to 360\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Numerical values should be specified without units,
+percentage signs, or degree symbols.
+
+Use a decimal point rather than a decimal comma.
+
+Numerical values are subject to the precision and
+dimensional limits of PGF and TeX.
+
+For example:
+
+\begin{verbatim}
+\klein[opacity=37.5, scale=2.5, rotate=22.5]
+\end{verbatim}
+
+\begin{center}
+    \klein[opacity=37.5,scale=2.5,rotate=22.5]
+\end{center}
+
+% --------------------------------------------------
+\section{Customization}
+% --------------------------------------------------
+
+\subsection{Color}
+
+The \texttt{color} option changes the color of the
+miniature, including its solid and dashed lines.
+
+The default color is black.
+
+Named colors and color expressions supported by
+the \texttt{xcolor} package may be used.
+
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{lc}
+\toprule
+\textbf{Command} & \textbf{Result}\\
+\midrule
+\verb|\klein[color=black]|
+    & \klein[color=black]\\
+\verb|\klein[color=red]|
+    & \klein[color=red]\\
+\verb|\klein[color=blue]|
+    & \klein[color=blue]\\
+\verb|\klein[color=green]|
+    & \klein[color=green]\\
+\verb|\klein[color=orange]|
+    & \klein[color=orange]\\
+\verb|\klein[color=purple]|
+    & \klein[color=purple]\\
+\verb|\klein[color=cyan]|
+    & \klein[color=cyan]\\
+\verb|\klein[color=magenta]|
+    & \klein[color=magenta]\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{Color Mixing}
+
+The package also supports the color-mixing syntax
+provided by \texttt{xcolor}.
+
+For example, the expression \texttt{blue!50!red}
+produces a mixture consisting of equal proportions
+of blue and red.
+
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{lc}
+\toprule
+\textbf{Command} & \textbf{Result}\\
+\midrule
+\verb|\klein[color=blue!50!red]|
+    & \klein[color=blue!50!red]\\
+\verb|\klein[color=red!40!black]|
+    & \klein[color=red!40!black]\\
+\verb|\klein[color=green!50!black]|
+    & \klein[color=green!50!black]\\
+\verb|\klein[color=orange!70!black]|
+    & \klein[color=orange!70!black]\\
+\verb|\klein[color=blue!30!white]|
+    & \klein[color=blue!30!white]\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{Custom Colors}
+
+Users may define their own colors using the
+\verb|\definecolor| command.
+
+For example:
+
+\begin{verbatim}
+\definecolor{CustomGreen}{HTML}{2A9D8F}
+\definecolor{CustomPurple}{HTML}{7952B3}
+
+\klein[color=CustomGreen,scale=3]
+\klein[color=CustomPurple,scale=3]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=CustomGreen,scale=3]
+    \qquad
+    \klein[color=CustomPurple,scale=3]
+\end{center}
+
+Any color model supported by \texttt{xcolor},
+such as RGB, rgb, HTML, or CMYK, may be used
+to define a named color.
+
+Further information about color definitions
+and color expressions can be found in the
+\href{https://ctan.org/pkg/xcolor}
+{\texttt{xcolor} documentation}.
+
+% --------------------------------------------------
+\subsection{Opacity}
+% --------------------------------------------------
+
+The \texttt{opacity} option controls the transparency
+of the miniature.
+
+Opacity is expressed as a percentage, with values
+ranging from 0 to 100, inclusive:
+
+\begin{itemize}
+    \item \texttt{opacity=100}: fully opaque;
+    \item \texttt{opacity=50}: partially transparent;
+    \item \texttt{opacity=0}: fully transparent.
+\end{itemize}
+
+The default value is 100.
+
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{lc}
+\toprule
+\textbf{Command} & \textbf{Result}\\
+\midrule
+\verb|\klein[opacity=100]| & \klein[opacity=100]\\
+\verb|\klein[opacity=80]|  & \klein[opacity=80]\\
+\verb|\klein[opacity=60]|  & \klein[opacity=60]\\
+\verb|\klein[opacity=40]|  & \klein[opacity=40]\\
+\verb|\klein[opacity=20]|  & \klein[opacity=20]\\
+\verb|\klein[opacity=0]|   & \klein[opacity=0]\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For a clearer comparison, the following miniatures
+are displayed at a larger scale:
+
+\begin{center}
+\begin{tabular}{ccccc}
+    \klein[opacity=100,scale=4] &
+    \klein[opacity=75,scale=4]  &
+    \klein[opacity=50,scale=4]  &
+    \klein[opacity=25,scale=4]  &
+    \klein[opacity=0,scale=4]   \\[0.3cm]
+    100\% & 75\% & 50\% & 25\% & 0\%
+\end{tabular}
+\end{center}
+
+Notice that a fully transparent miniature still
+occupies space in the document.
+
+Decimal values are also supported, for example:
+
+\begin{verbatim}
+\klein[opacity=37.5]
+\end{verbatim}
+
+Opacity is applied to the individual drawing paths.
+Consequently, overlapping strokes may appear slightly
+darker when partial opacity is used.
+
+The opacity option should not be confused with color
+mixing. A transparent color allows the background to
+remain visible, whereas mixing a color with white
+produces a lighter, potentially fully opaque color.
+
+% --------------------------------------------------
+\subsection{Scale}
+% --------------------------------------------------
+
+The \texttt{scale} option changes the size of the
+miniature by multiplying its original dimensions
+by a positive factor.
+
+The default value is 1.
+
+Values strictly between 0 and 1 reduce the miniature,
+whereas values greater than 1 enlarge it.
+
+Scaling is proportional: the dimensions, line
+widths, and dash patterns are scaled together.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{lc}
+\toprule
+\textbf{Command} & \textbf{Result}\\
+\midrule
+\verb|\klein[scale=0.25]| & \klein[scale=0.25]\\
+\verb|\klein[scale=0.5]|  & \klein[scale=0.5]\\
+\verb|\klein[scale=1]|    & \klein[scale=1]\\
+\verb|\klein[scale=1.5]|  & \klein[scale=1.5]\\
+\verb|\klein[scale=2]|    & \klein[scale=2]\\
+\verb|\klein[scale=3]|    & \klein[scale=3]\\
+\verb|\klein[scale=5]|    & \klein[scale=5]\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The following illustration compares several
+different scaling factors:
+
+\begin{center}
+\begin{tabular}{cccccc}
+    \klein[scale=0.5] &
+    \klein[scale=1]   &
+    \klein[scale=2]   &
+    \klein[scale=3]   &
+    \klein[scale=4]   &
+    \klein[scale=5]   \\[0.3cm]
+    $0.5$ & $1$ & $2$ & $3$ & $4$ & $5$
+\end{tabular}
+\end{center}
+
+The scale must be strictly positive.
+Zero and negative scaling factors are not accepted.
+
+Extremely small or large scaling factors are subject
+to the numerical precision of PGF and the dimensional
+limits of the TeX engine.
+
+In particular, a sufficiently small positive value
+may be rounded to zero by the underlying numerical
+calculation mechanism.
+
+% --------------------------------------------------
+\subsection{Rotation}
+% --------------------------------------------------
+
+The \texttt{rotate} option rotates the miniature
+counterclockwise by a given angle, expressed in degrees.
+
+The accepted values range from 0 to 360, inclusive,
+with a default value of 0.
+
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{lc}
+\toprule
+\textbf{Command} & \textbf{Result}\\
+\midrule
+\verb|\klein[rotate=0]|   & \klein[rotate=0]\\
+\verb|\klein[rotate=45]|  & \klein[rotate=45]\\
+\verb|\klein[rotate=90]|  & \klein[rotate=90]\\
+\verb|\klein[rotate=135]| & \klein[rotate=135]\\
+\verb|\klein[rotate=180]| & \klein[rotate=180]\\
+\verb|\klein[rotate=225]| & \klein[rotate=225]\\
+\verb|\klein[rotate=270]| & \klein[rotate=270]\\
+\verb|\klein[rotate=315]| & \klein[rotate=315]\\
+\verb|\klein[rotate=360]| & \klein[rotate=360]\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The following illustration shows eight different
+orientations of the miniature:
+
+\begin{center}
+\begin{tabular}{cccc}
+    \klein[rotate=0,scale=4]   &
+    \klein[rotate=45,scale=4]  &
+    \klein[rotate=90,scale=4]  &
+    \klein[rotate=135,scale=4] \\[0.3cm]
+    $0^\circ$ & $45^\circ$ & $90^\circ$ & $135^\circ$
+    \\[0.8cm]
+    \klein[rotate=180,scale=4] &
+    \klein[rotate=225,scale=4] &
+    \klein[rotate=270,scale=4] &
+    \klein[rotate=315,scale=4] \\[0.3cm]
+    $180^\circ$ & $225^\circ$ & $270^\circ$ & $315^\circ$
+\end{tabular}
+\end{center}
+
+Fractional angles are also supported:
+
+\begin{verbatim}
+\klein[rotate=22.5]
+\end{verbatim}
+
+A rotation of 360 degrees produces the same
+orientation as a rotation of 0 degrees.
+
+To obtain an orientation corresponding to a clockwise
+rotation, use its equivalent counterclockwise angle.
+For example, a clockwise rotation of 45 degrees
+can be obtained using:
+
+\begin{verbatim}
+\klein[rotate=315]
+\end{verbatim}
+
+% --------------------------------------------------
+\section{Combining Options}
+% --------------------------------------------------
+
+All customization options are independent and
+may be combined in a single command.
+
+For example:
+
+\begin{verbatim}
+\klein[color=blue, opacity=75, scale=4, rotate=30]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=blue,opacity=75,scale=4,rotate=30]
+\end{center}
+
+The options may be specified in any order.
+Therefore, the following two commands are equivalent:
+
+\begin{verbatim}
+\klein[color=red, scale=3, rotate=45]
+\klein[rotate=45, color=red, scale=3]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=red,scale=3,rotate=45]
+    \qquad
+    \klein[rotate=45,color=red,scale=3]
+\end{center}
+
+\subsection{Additional Examples}
+
+\begin{verbatim}
+\klein[color=purple, opacity=50, scale=4, rotate=45]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=purple,opacity=50,scale=4,rotate=45]
+\end{center}
+
+\begin{verbatim}
+\klein[color=orange!70!black, scale=5, rotate=90]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=orange!70!black,scale=5,rotate=90]
+\end{center}
+
+\begin{verbatim}
+\klein[color=CustomGreen, opacity=80, scale=4,
+       rotate=315]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=CustomGreen,opacity=80,scale=4,rotate=315]
+\end{center}
+
+% --------------------------------------------------
+\section{Scope of Customization}
+% --------------------------------------------------
+
+The customization options apply only to the
+individual invocation of the \verb|\klein| command.
+
+They do not modify the default appearance of
+subsequent miniatures.
+
+For example:
+
+\begin{verbatim}
+\klein[color=red, scale=3]
+\klein
+\klein[color=blue, rotate=90]
+\klein
+\end{verbatim}
+
+\begin{center}
+    \klein[color=red,scale=3]
+    \qquad
+    \klein
+    \qquad
+    \klein[color=blue,rotate=90]
+    \qquad
+    \klein
+\end{center}
+
+Each invocation starts with the default settings
+before applying the options supplied by the user.
+
+If the same option is specified more than once
+within a single invocation, the last assignment
+takes precedence.
+
+For example:
+
+\begin{verbatim}
+\klein[color=red, color=blue]
+\end{verbatim}
+
+\begin{center}
+    \klein[color=red,color=blue]
+\end{center}
+
+The resulting miniature is blue.
+
+% --------------------------------------------------
+\section{Using the Miniature in Documents}
+% --------------------------------------------------
+
+\subsection{Inline Usage}
+
+The default miniature is designed to be inserted
+directly into ordinary text.
+
+For example:
+
+\begin{verbatim}
+The Klein bottle \klein\ is a non-orientable surface.
+\end{verbatim}
+
+\begin{quote}
+The Klein bottle \klein\ is a non-orientable surface.
+\end{quote}
+
+The miniature may also be customized within a
+paragraph:
+
+\begin{verbatim}
+The Klein bottle \klein[color=blue]
+is a classical object in topology.
+\end{verbatim}
+
+\begin{quote}
+The Klein bottle \klein[color=blue]
+is a classical object in topology.
+\end{quote}
+
+When the command is used without an optional
+argument, an explicit control space, written as
+\verb|\ |, may be used to preserve the following
+interword space.
+
+The command produces a graphical illustration,
+rather than a character from a mathematical font
+or a native mathematical symbol.
+
+Its size is determined by the \texttt{scale}
+option and is not automatically adjusted to
+mathematical styles such as script style or
+scriptscript style.
+
+Large scaling factors and rotations may affect
+the height and depth of the surrounding text line.
+
+\subsection{Displayed Illustrations}
+
+Larger scaling factors can be used to produce
+standalone illustrations.
+
+\begin{verbatim}
+\begin{center}
+    \klein[color=blue!70!black, scale=8]
+\end{center}
+\end{verbatim}
+
+\begin{center}
+    \klein[color=blue!70!black,scale=8]
+\end{center}
+
+Since the miniature is drawn using TikZ,
+it is not based on an external bitmap image.
+In PDF output, it retains its vector-based
+appearance when enlarged.
+
+\subsection{Figures and Captions}
+
+The miniature may also be placed inside a
+standard figure environment.
+
+\begin{verbatim}
+\begin{figure}[ht]
+    \centering
+    \klein[color=ManualBlue, scale=5]
+    \caption{A representation of the Klein bottle.}
+\end{figure}
+\end{verbatim}
+
+\begin{center}
+    \klein[color=ManualBlue,scale=5]
+    \par\vspace{0.2cm}
+    {\small Figure example: A representation
+    of the Klein bottle.}
+\end{center}
+
+In this example, \texttt{ManualBlue} is a custom
+color defined in the preamble of this documentation.
+
+\subsection{Use in Tables}
+
+The miniature can also be used inside table cells,
+as demonstrated throughout this documentation.
+
+For example:
+
+\begin{verbatim}
+\begin{tabular}{lc}
+    Default miniature & \klein\\
+    Blue miniature    & \klein[color=blue]\\
+    Rotated miniature & \klein[rotate=90]
+\end{tabular}
+\end{verbatim}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lc}
+    Default miniature & \klein\\
+    Blue miniature    & \klein[color=blue]\\
+    Rotated miniature & \klein[rotate=90]
+\end{tabular}
+\end{center}
+
+\subsection{Use with Beamer}
+
+The package can also be used in presentations
+created with the
+\href{https://ctan.org/pkg/beamer}
+{\texttt{beamer}} document class.
+
+For example:
+
+\begin{verbatim}
+\documentclass{beamer}
+\usepackage{kleinbottle}
+
+\begin{document}
+
+\begin{frame}{The Klein Bottle}
+
+    The Klein bottle is a non-orientable surface.
+
+    \begin{center}
+        \klein[color=blue, scale=5]
+    \end{center}
+
+\end{frame}
+
+\end{document}
+\end{verbatim}
+
+The same customization options are available
+in Beamer presentations.
+
+\subsection{Use in PDF Bookmarks}
+
+The command generates a graphical object and
+therefore cannot be represented directly as
+plain text in PDF bookmarks.
+
+When using the miniature in a section title
+that generates a PDF bookmark, users of
+\texttt{hyperref} may provide an alternative
+text representation using \verb|\texorpdfstring|.
+
+For example:
+
+\begin{verbatim}
+\section{\texorpdfstring{\klein\ The Klein Bottle}
+                       {The Klein Bottle}}
+\end{verbatim}
+
+% --------------------------------------------------
+\section{Error Handling}
+% --------------------------------------------------
+
+The package checks the numerical values supplied
+to the \texttt{opacity}, \texttt{scale}, and
+\texttt{rotate} options.
+
+Values outside the accepted ranges generate
+package errors.
+
+The following examples illustrate invalid
+commands and the reasons why they are rejected.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ll}
+\toprule
+\textbf{Invalid command} & \textbf{Reason}\\
+\midrule
+\verb|\klein[opacity=-10]| & Negative opacity\\
+\verb|\klein[opacity=120]| & Opacity above 100\\
+\verb|\klein[scale=0]|     & Zero scaling factor\\
+\verb|\klein[scale=-2]|    & Negative scaling factor\\
+\verb|\klein[rotate=-45]|  & Negative rotation\\
+\verb|\klein[rotate=400]|  & Rotation above 360 degrees\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+If compilation continues after a numerical
+range error, the corresponding option is
+replaced by its default value.
+
+Undefined colors and unrecognized option names
+are handled by the underlying \texttt{xcolor}
+and \texttt{pgfkeys} mechanisms.
+
+Non-numeric or empty numerical arguments may
+produce errors from PGFMath. The fallback
+mechanism described above applies specifically
+to numerical range errors.
+
+Users should correct invalid arguments rather
+than relying on compilation to continue after
+an error.
+
+% --------------------------------------------------
+\section{Minimal Working Example}
+% --------------------------------------------------
+
+The following is a complete example of a document
+using the \texttt{kleinbottle} package, together with
+its corresponding output.
+
+\medskip
+
+\noindent
+\begin{minipage}[t]{0.58\textwidth}
+
+    \vspace{0pt}
+
+    \textbf{Source code}
+
+    \small
+
+\begin{verbatim}
+\documentclass{article}
+
+\usepackage{kleinbottle}
+
+\definecolor{MyColor}{HTML}{234A76}
+
+\begin{document}
+
+The Klein bottle \klein\ is a
+compact non-orientable surface.
+
+\begin{center}
+
+    \klein[color=MyColor, scale=5]
+
+    \klein[color=red, opacity=50,
+           scale=3, rotate=45]
+
+\end{center}
+
+\end{document}
+\end{verbatim}
+
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.38\textwidth}
+
+    \vspace{0pt}
+
+    \textbf{Output}
+
+    \medskip
+
+    \noindent
+    \fbox{%
+        \begin{minipage}{
+            \dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+
+            \definecolor{MyColor}{HTML}{234A76}
+
+            \small
+            \vspace{0.3cm}
+
+            The Klein bottle \klein\ is a
+            compact non-orientable surface.
+
+            \begin{center}
+
+                \klein[color=MyColor, scale=5]
+
+                \klein[color=red, opacity=50,
+                       scale=3, rotate=45]
+
+            \end{center}
+
+            \vspace{0.3cm}
+
+        \end{minipage}%
+    }
+
+\end{minipage}
+
+\medskip
+
+The output shown above reproduces the contents
+of the example document within a smaller
+typesetting area.
+
+% --------------------------------------------------
+\section{License and Maintenance}
+% --------------------------------------------------
+
+Copyright \textcopyright{} 2026 Benjamim Lima Neto.
+
+This work may be distributed and/or modified under
+the conditions of the \LaTeX{} Project Public License
+(LPPL), either version 1.3c of this license or,
+at your option, any later version.
+
+The latest version of this license is available at:
+
+\begin{center}
+    \url{https://www.latex-project.org/lppl.txt}
+\end{center}
+
+A copy of the license is included in the accompanying
+\texttt{LICENSE} file.
+
+This work has the LPPL maintenance status
+\texttt{maintained}.
+
+The author and current maintainer of the package
+is Benjamim Lima Neto.
+
+Bug reports and suggestions may be submitted using
+the contact information provided in the accompanying
+\texttt{README.md} file.
+
+\subsection{Files Included in the Distribution}
+
+The package distribution contains the following files:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{ll}
+\toprule
+\textbf{File} & \textbf{Description}\\
+\midrule
+\texttt{kleinbottle.sty} & Package source code\\
+\texttt{kleinbottle.tex} & Documentation source code\\
+\texttt{kleinbottle.pdf} & Compiled documentation\\
+\texttt{README.md}       & Package information\\
+\texttt{LICENSE}         & LPPL license text\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The package source, documentation source, README file,
+and derived documentation constitute the Work under
+the LPPL.
+
+The accompanying license text is distributed verbatim
+and retains its original copyright notice.
+
+% --------------------------------------------------
+\section{Version History}
+% --------------------------------------------------
+
+\noindent
+\textbf{Version 1.0 -- November 26, 2026}
+
+\begin{itemize}
+
+    \item Initial release.
+
+    \item Introduction of the \verb|\klein| command.
+
+    \item Support for named colors, color mixing,
+          and custom color definitions.
+
+    \item Percentage-based opacity customization.
+
+    \item Proportional scaling of the illustration,
+          including line widths and dash patterns.
+
+    \item Counterclockwise rotation in degrees.
+
+    \item Independent customization of individual
+          miniatures.
+
+    \item Validation of numerical option ranges.
+
+    \item User documentation with illustrated examples.
+
+\end{itemize}
+
+\vfill
+
+\begin{center}
+    \klein[color=ManualBlue,scale=2]
+    \qquad
+    \klein[color=CustomGreen,scale=2]
+    \qquad
+    \klein[color=CustomPurple,scale=2]
+\end{center}
+
+\end{document}
